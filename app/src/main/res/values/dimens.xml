@@ -1,0 +1,7 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="standard">14pt</dimen>
+    <dimen name="default_margin">24dp</dimen>
+    <dimen name="default_wh">24dp</dimen>
+    <dimen name="large_margin">48dp</dimen>
+</resources>

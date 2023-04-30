@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MarkupApp</string>
+    <string name="action_settings">Настройки</string>
+    <string name="first_fragment_label">Первый фрагмент</string>
+    <string name="second_fragment_label">Второй фрагмент</string>
+    <string name="next">Следующий</string>
+    <string name="previous">Предыдущий</string>
+    <string name="soccer_skills">Навыки Футбола</string>
+    <string name="email">Электронная почта</string>
+    <string name="password">Пароль</string>
+    <string name="remember_me">Запомнить меня</string>
+    <string name="sign_in">Войти</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="don_t_have_an_account">Нет аккаунта?</string>
+    <string name="sign_up_now">Зарегистрироваться</string>
+    <string name="password_icon">Иконка Пароля</string>
+    <string name="basketball_icon">Иконка Футбола</string>
+    <string name="person_icon">Иконка Человека</string>
+    <string name="_1">1</string>
+    <string name="_2">2</string>
+    <string name="_3">3</string>
+    <string name="name2">Имя</string>
+    <string name="password2">Пароль</string>
+    <string name="confirm_password">Подтвердите пароль</string>
+    <string name="email2">Электронная почта</string>
+    <string name="sign_up2">Войти</string>
+    <string name="back">Назад</string>
+</resources>
