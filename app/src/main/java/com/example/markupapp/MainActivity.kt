@@ -16,8 +16,6 @@ import android.widget.Toast
 
 
 class MainActivity : AppCompatActivity() {
-
-    var count = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -53,9 +51,10 @@ class MainActivity : AppCompatActivity() {
                 if(cursor.getString(pass) == itemPass.text.toString())
                 {
                     val myIntent = Intent(this, SecondActivity::class.java)
-                    count++
-                    myIntent.putExtra("textValue", itemLoginText)
-                    myIntent.putExtra("loginCount", count)
+                    db.writableDatabase.execSQL("UPDATE users SET count = count + 1 WHERE email = ?", arrayOf(itemLoginText))
+                    var countof = checkCount()
+                    myIntent.putExtra("name", countof[0].toString())
+                    myIntent.putExtra("count", countof[1].toString())
                     startActivity(myIntent)
                 }
                 else
@@ -69,5 +68,31 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Пользователь не найден", Toast.LENGTH_LONG).show()
         }
         cursor.close()
+    }
+
+    // Check count of logins for every user in the database and return the user with maximum count of logins
+    fun checkCount(): Array<Any> {
+        val db = DbHelper(this)
+        val cursor = db.writableDatabase.rawQuery("SELECT * FROM users", null)
+        var maxCount = 0
+        var maxUser = ""
+        if(cursor.moveToFirst())
+        {
+            val email = cursor.getColumnIndex("email")
+            val count = cursor.getColumnIndex("count")
+            if (email != -1 && count != -1) {
+                do {
+                    if(cursor.getInt(count) > maxCount)
+                    {
+                        maxCount = cursor.getInt(count)
+                        maxUser = cursor.getString(email)
+                    }
+                } while (cursor.moveToNext())
+            }
+        }
+        cursor.close()
+        Toast.makeText(this, "Пользователь с максимальным количеством логинов: $maxUser, " +
+                "количество логинов: $maxCount", Toast.LENGTH_LONG).show()
+        return arrayOf(maxUser, maxCount)
     }
 }

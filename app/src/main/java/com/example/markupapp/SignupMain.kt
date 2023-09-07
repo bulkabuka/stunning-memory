@@ -45,6 +45,7 @@ class SignupMain : AppCompatActivity() {
         cv.put("name", name.text.toString())
         cv.put("email", email.text.toString())
         cv.put("password", pass.text.toString())
+        cv.put("count", 0)
 
         db.writableDatabase.insert("users", null, cv)
     }
