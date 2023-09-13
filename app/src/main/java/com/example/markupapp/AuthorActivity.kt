@@ -1,7 +1,9 @@
 package com.example.markupapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.example.markupapp.databinding.ActivityAuthorBinding
 import com.example.markupapp.databinding.ActivitySignupMainBinding
 
@@ -31,8 +33,7 @@ class AuthorActivity : AppCompatActivity() {
         val editor = sharedPref.edit()
         editor.putBoolean("firstTime", false)
         editor.apply()
-        val myIntent = intent
-        myIntent.setClass(this, MainActivity::class.java)
+        val myIntent = Intent(this, MainActivity::class.java)
         startActivity(myIntent)
     }
 }
