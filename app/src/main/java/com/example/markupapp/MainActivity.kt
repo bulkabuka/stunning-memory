@@ -13,12 +13,21 @@ import com.example.markupapp.databinding.ActivityMainBinding
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import android.widget.Toast
+import java.util.Dictionary
 
 
 class MainActivity : AppCompatActivity() {
+    // Save in the SharedPreferences that user has visited the app before
+
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.button.setOnClickListener {
+            mySecondActivity()
+        }
     }
 
     fun onSignupAct(view: View) {
@@ -26,35 +35,23 @@ class MainActivity : AppCompatActivity() {
         startActivity(myIntent)
     }
 
-    fun mySecondActivity(view: View) {
-        /*val itemLogin = findViewById<TextInputEditText>(R.id.fieldLogin)
-        val itemLoginText = itemLogin.text.toString()
-        val itemPass = findViewById<TextInputEditText>(R.id.fieldPass)
-        if(itemLogin.text.toString() == "" || itemPass.text.toString() == "")
-        {
-            Toast.makeText(this, "Не заполнено одно из полей", Toast.LENGTH_LONG).show()
-            return
-        }
-        val myIntent = Intent(this, SecondActivity::class.java)
-        myIntent.putExtra("textValue", itemLoginText)
-        startActivity(myIntent)*/
+    fun mySecondActivity() {
+        val loginText = binding.fieldLogin.text.toString()
+        val passText = binding.fieldPass.text.toString()
 
-        val itemLogin = findViewById<TextInputEditText>(R.id.fieldLogin)
-        val itemLoginText = itemLogin.text.toString()
-        val itemPass = findViewById<TextInputEditText>(R.id.fieldPass)
         val db = DbHelper(this)
-        val cursor = db.writableDatabase.rawQuery("SELECT * FROM users WHERE email = ?", arrayOf(itemLoginText))
+        val cursor = db.writableDatabase.rawQuery("SELECT * FROM users WHERE email = ?", arrayOf(loginText))
         if(cursor.moveToFirst())
         {
             val pass = cursor.getColumnIndex("password")
             if (pass != -1) {
-                if(cursor.getString(pass) == itemPass.text.toString())
+                if(cursor.getString(pass) == passText)
                 {
                     val myIntent = Intent(this, SecondActivity::class.java)
-                    db.writableDatabase.execSQL("UPDATE users SET count = count + 1 WHERE email = ?", arrayOf(itemLoginText))
+                    db.writableDatabase.execSQL("UPDATE users SET count = count + 1 WHERE email = ?", arrayOf(loginText))
                     var countof = checkCount()
-                    myIntent.putExtra("name", countof[0].toString())
-                    myIntent.putExtra("count", countof[1].toString())
+                    myIntent.putExtra("name", countof.keys.first())
+                    myIntent.putExtra("count", countof.values.first())
                     startActivity(myIntent)
                 }
                 else
@@ -71,7 +68,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Check count of logins for every user in the database and return the user with maximum count of logins
-    fun checkCount(): Array<Any> {
+    fun checkCount(): Map<String, Int> {
         val db = DbHelper(this)
         val cursor = db.writableDatabase.rawQuery("SELECT * FROM users", null)
         var maxCount = 0
@@ -93,6 +90,6 @@ class MainActivity : AppCompatActivity() {
         cursor.close()
         Toast.makeText(this, "Пользователь с максимальным количеством логинов: $maxUser, " +
                 "количество логинов: $maxCount", Toast.LENGTH_LONG).show()
-        return arrayOf(maxUser, maxCount)
+        return mapOf(maxUser to maxCount)
     }
 }

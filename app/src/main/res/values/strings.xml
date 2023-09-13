@@ -63,4 +63,5 @@
     <string name="email2">Email</string>
     <string name="sign_up2">Sign up</string>
     <string name="back">Back</string>
+    <string name="description">Небольшое приложение для тестирования работы разметки XML. Здесь работает регистрация и авторизация, а также включен подход Room и обработка Email с паролем</string>
 </resources>

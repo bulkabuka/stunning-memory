@@ -8,15 +8,23 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
+import com.example.markupapp.databinding.ActivityMainBinding
+import com.example.markupapp.databinding.ActivitySignupMainBinding
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 
 class SignupMain : AppCompatActivity() {
     val db = DbHelper(this)
+    private lateinit var binding: ActivitySignupMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_signup_main)
+        binding = ActivitySignupMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.button2.setOnClickListener {
+            checkClick()
+        }
     }
 
     fun backActivity(view: View) {
@@ -24,11 +32,11 @@ class SignupMain : AppCompatActivity() {
         startActivity(myIntent)
     }
 
-    fun checkClick(view: View) {
-        val name = findViewById<TextInputEditText>(R.id.textName)
-        val email = findViewById<TextInputEditText>(R.id.textEmail)
-        val pass = findViewById<TextInputEditText>(R.id.textPass)
-        val passConfirm = findViewById<TextInputEditText>(R.id.textPassConf)
+    fun checkClick() {
+        val name = binding.textName
+        val email = binding.textEmail
+        val pass = binding.textPass
+        val passConfirm = binding.textPassConf
 
         if (name.text.toString() == "" || email.text.toString() == "" || pass.text.toString() == "" || passConfirm.text.toString() == "") {
             Toast.makeText(this, "ERROR: One or more fields are not filled", Toast.LENGTH_LONG).show()
